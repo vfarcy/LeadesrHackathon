@@ -33,7 +33,7 @@ Ce hackathon est conçu pour être une expérience d'apprentissage intensive et 
 *   **Communication Temps Réel :** WebSockets (via Spring Boot)
 *   **Orchestration & Environnement :** Docker et Docker Compose
 
-## 4. Structure du Projet (Monorepo)
+## 5. Structure du Projet (Monorepo)
 
 ```
 /Leaders/
@@ -58,18 +58,69 @@ Ce hackathon est conçu pour être une expérience d'apprentissage intensive et 
 └── README.md               # Ce fichier
 ```
 
-## 5. Le Principe Clé : Le Contrat d'API d'Abord
+## 6. Architecture Générale
+
+```
++-----------------------------------------------------------------+
+|                                                                 |
+|                    +------------------+                         |
+|                    |   Utilisateurs   |                         |
+|                    +--------+---------+                         |
+|                             |                                   |
+|                             v                                   |
+|      +---------------------------------------------+            |
+|      |         FRONTEND (Vue.js / Docker)          |            |
+|      | (Équipes 7-11: UI-Lobby, UI-Board, etc.)    |            |
+|      +----------------------+----------------------+            |
+|                             |                                   |
+|                             v (Requêtes HTTP/S)                 |
+|      +----------------------+----------------------+            |
+|      |   API GATEWAY (Spring Cloud / Docker)       |            |
+|      | (Équipe 12)                                 |            |
+|      +----------------------+----------------------+            |
+|                             | (Routage interne)                 |
+|                             v                                   |
+|      +---------------------------------------------+            |
+|      |         BACKEND (Spring Boot / Docker)      |            |
+|      | (Équipes 1-6: Services Joueurs, Lobby, etc.)|            |
+|      +--+-----------------+--------------------+--+            |
+|         |                 |                    |                |
+|         +-----------------v--------------------+                |
+|                           | (Appels de service)                 |
+|                           v                                   |
+|      +--------------------+-----------------------+            |
+|      |   SERVICE PERSISTANCE (Spring / Docker)    |            |
+|      |   (Équipe 6)                               |            |
+|      +--------------------+-----------------------+            |
+|                           | (JDBC)                            |
+|                           v                                   |
+|                    +------+-----------+                        |
+|                    |  SUPABASE DB     |                        |
+|                    |  (PostgreSQL)    |                        |
+|                    |  (Équipe 13)     |                        |
+|                    +------------------+                        |
+|                                                                 |
++-----------------------------------------------------------------+
+|                                                                 |
+|   GIT / GITHUB : Code source unique pour toutes les équipes     |
+|                                                                 |
+|   DOCKER COMPOSE : Orchestration de tous les services (Éq. 14)  |
+|                                                                 |
++-----------------------------------------------------------------+
+```
+
+## 7. Le Principe Clé : Le Contrat d'API d'Abord
 
 **Le livrable du Jour 1 n'est PAS du code.** C'est un **contrat d'API**. Les équipes back-end doivent définir les points d'entrée (endpoints) de leur service, les données attendues en entrée et les données retournées en sortie en utilisant le format **OpenAPI (Swagger)**. Ce contrat est la promesse que vous faites aux autres équipes.
 
-## 6. Jalons du Hackathon
+## 8. Jalons du Hackathon
 
 *   **Jour 1 : Définition des Contrats.** Validation en fin de journée.
 *   **Jour 2 : Développement Initial.** Implémentation des squelettes de services et des UI avec données simulées.
 *   **Jour 3 & 4 : Développement et Intégration.** Développement des fonctionnalités et premiers tests d'intégration.
 *   **Jour 5 : Finalisation et Démonstration.** Matin : Intégration finale. 12h00 : **CODE FREEZE**. Après-midi : **Démonstrations Finales**.
 
-## 7. Grille d'Évaluation (sur 100 points)
+## 9. Grille d'Évaluation (sur 100 points)
 
 | Catégorie | Points | Description |
 | :--- | :--- | :--- |
@@ -78,7 +129,7 @@ Ce hackathon est conçu pour être une expérience d'apprentissage intensive et 
 | **Processus** | 20 | Qualité des pratiques de collaboration (Git, etc.) et évaluation par les pairs. |
 
 ---
-## 8. Backlog Quotidien par Équipe
+## 10. Backlog Quotidien par Équipe
 
 ### PÔLE BACK-END
 
