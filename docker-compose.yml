@@ -1,2 +1,132 @@
-# This file will orchestrate all the services.
-# It will be managed by Team 14 (Build & Integration).
+# Fichier docker-compose.yml
+# Géré par l'Équipe 14 (Intégration & Build)
+# Version de la syntaxe Docker Compose
+version: '3.8'
+
+# Définition du réseau partagé pour la communication entre les services
+networks:
+  leaders-net:
+    driver: bridge
+
+# Définition des volumes pour la persistance des données
+volumes:
+  postgres-data:
+    driver: local
+
+services:
+  #--------------------------------------------------------------------------
+  # PÔLE BACK-END (Java / Spring Boot)
+  #--------------------------------------------------------------------------
+
+  # Équipe 12: API Gateway
+  # Point d'entrée unique pour toutes les requêtes du front-end.
+  # Redirige les requêtes vers les microservices appropriés.
+  api-gateway:
+    build:
+      context: ./backend/api-gateway
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080" # Port principal de l'application exposé sur l'hôte
+    networks:
+      - leaders-net
+    depends_on:
+      - service-players
+      - service-lobby
+      - service-gamestate
+      - service-characters
+      - service-actions
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+
+  # Équipe 1: Service Joueurs
+  service-players:
+    build: ./backend/service-players
+    networks:
+      - leaders-net
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      # Les URLs des autres services seront résolues par Docker via leur nom de service
+
+  # Équipe 2: Service de Lobby
+  service-lobby:
+    build: ./backend/service-lobby
+    networks:
+      - leaders-net
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+
+  # Équipe 3: Service d'État du Jeu (avec WebSockets)
+  service-gamestate:
+    build: ./backend/service-gamestate
+    networks:
+      - leaders-net
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+
+  # Équipe 4: Service des Personnages
+  service-characters:
+    build: ./backend/service-characters
+    networks:
+      - leaders-net
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+
+  # Équipe 5: Service d'Actions
+  service-actions:
+    build: ./backend/service-actions
+    networks:
+      - leaders-net
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+
+  # Équipe 6: Service de Persistance
+  service-persistence:
+    build: ./backend/service-persistence
+    networks:
+      - leaders-net
+    depends_on:
+      - database
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/leadersdb
+      - SPRING_DATASOURCE_USERNAME=user
+      - SPRING_DATASOURCE_PASSWORD=password
+
+  #--------------------------------------------------------------------------
+  # PÔLE FRONT-END (Vue.js)
+  #--------------------------------------------------------------------------
+
+  # Équipes 7-11: Application Front-end
+  # Ce service unique regroupe tous les composants UI (Lobby, Board, HUD, etc.)
+  # Il est servi par un serveur de développement Node.js (ex: `npm run serve`)
+  frontend:
+    build:
+      context: ./frontend # Le contexte est le dossier parent des UI
+      dockerfile: Dockerfile # Un Dockerfile unique pour le front-end
+    ports:
+      - "80:8080" # Port 80 de l'hôte vers le port 8080 du conteneur (port de `npm run serve`)
+    networks:
+      - leaders-net
+    depends_on:
+      - api-gateway
+
+  #--------------------------------------------------------------------------
+  # PÔLE PLATEFORME (Base de Données)
+  #--------------------------------------------------------------------------
+
+  # Équipe 13: Base de Données PostgreSQL
+  # Simule l'environnement Supabase pour le développement local.
+  database:
+    image: postgres:15-alpine
+    container_name: leaders-db
+    ports:
+      - "5432:5432" # Expose le port de Postgres pour un accès direct si besoin
+    volumes:
+      - postgres-data:/var/lib/postgresql/data # Persistance des données
+      - ./platform/database/init.sql:/docker-entrypoint-initdb.d/init.sql # Script d'initialisation
+    networks:
+      - leaders-net
+    environment:
+      - POSTGRES_DB=leadersdb
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
