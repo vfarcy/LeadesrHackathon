@@ -15,7 +15,17 @@ Vous n'allez pas construire le jeu seul dans votre équipe. Les 73 étudiants so
 
 **Le succès de ce hackathon repose sur votre capacité à communiquer, à définir des contrats clairs (API), et à intégrer votre travail avec celui des autres.**
 
-## 3. La Pile Technologique
+## 3. Compétences Développées
+
+Ce hackathon est conçu pour être une expérience d'apprentissage intensive et intégrée. Au-delà de la réalisation du jeu, il vous permettra de développer un large éventail de compétences clés, notamment :
+
+*   **Techniques :** Maîtrise d'une architecture microservices moderne (Java, Spring Boot), développement d'interfaces réactives (Vue.js), gestion de bases de données relationnelles (PostgreSQL), communication en temps réel (WebSockets), et orchestration d'applications conteneurisées (Docker, Docker Compose). Vous pratiquerez également les principes de l'API-first et de l'intégration continue.
+
+*   **Managériales :** Gestion de projet en mode Agile, planification et suivi de backlog, négociation de contrats d'interface (API) entre les équipes, gestion des dépendances, et élaboration de stratégies d'intégration et de tests dans un environnement complexe.
+
+*   **Humaines :** Communication technique efficace, travail et prise de décision en équipe, résolution de problèmes collectifs, et leadership. Vous apprendrez à faire des compromis et à vous synchroniser avec d'autres équipes pour atteindre un objectif commun.
+
+## 4. La Pile Technologique
 
 *   **Front-End :** Vue.js
 *   **Back-End :** Java 17+ avec Spring Boot 3+
