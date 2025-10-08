@@ -6,8 +6,10 @@ Bienvenue dans ce hackathon de 5 jours ! L'objectif est de construire une versio
 
 *   **But du jeu :** Vaincre le Leader adverse de l'une des deux manières suivantes :
     1.  **Capture :** Amener 2 de vos personnages sur des cases adjacentes au Leader adverse.
-    2.  **Encerclement :** Le Leader adverse se retrouve sans aucune case libre autour de lui.
+    2.  **Encerclement :** Le Lseader adverse se retrouve sans aucune case libre autour de lui.
 *   **Déroulement :** À tour de rôle, les joueurs effectuent une action avec chacun de leurs personnages (déplacement ou utilisation de compétence). Ensuite, le joueur recrute un nouveau personnage parmi ceux disponibles, jusqu'à ce que chaque joueur ait une équipe de 5 (1 Leader + 4 personnages recrutés). Une fois les équipes complètes, la phase de recrutement est sautée.
+
+[Vidéo](https://youtu.be/jkL6T0s9YuQ)
 
 ## 2. Le Défi : Architecture par Domaines
 
